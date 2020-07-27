@@ -7,6 +7,7 @@ export const Container = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	width: 370px;
+	cursor: pointer;
 `;
 
 export const Info = styled.div`
