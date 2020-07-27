@@ -24,7 +24,13 @@ function Routes() {
 					isPrivate
 					path="/collaborators"
 					component={Collaborators}
-				/>	
+				/>
+				<Route
+					exact
+					isPrivate
+					path="/collaborators/{:id}"
+					component={Collaborator}
+				/>
 				<Route
 					exact
 					isPrivate
