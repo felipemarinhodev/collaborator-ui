@@ -12,3 +12,16 @@ export const fetchCollaborators = async () => (
 			});
 	})
 )
+
+export const saveCollaborator = async (collaborator) => (
+	new Promise((resolve, reject) => {
+		api.post('/api/collaborator', collaborator)
+			.then(res => {
+				console.log('saveCollaborator res', res);
+				resolve(res.data);
+			})
+			.catch((err) => {
+				reject(err)
+			});
+	})
+)
