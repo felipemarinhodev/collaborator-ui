@@ -2,11 +2,12 @@ import React from 'react';
 
 import { Container } from './styles';
 
-function TextArea({label}) {
+function TextArea(props) {
+	const {label} = props;
 	return (
 		<Container>
 			<label>{label}</label>
-			<textarea />
+			<textarea {...props}/>
 		</Container>
 	);
 }
