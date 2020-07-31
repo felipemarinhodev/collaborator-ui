@@ -14,9 +14,15 @@ export const Container = styled.div`
 `;
 
 export const OptionsContainer = styled.div`
+	width: 100%;
 	display: flex;
 	flex-direction: row;
 	align-items: flex-end;
+	justify-content: end;
+
+	svg {
+		margin: 10px;
+	}
 `;
 
 export const InfoContainer = styled.div`
@@ -47,4 +53,19 @@ export const Experience = styled.div`
 export const Skill = styled.span`
 	border: 1px solid #000;
 	margin: 5px;
+`;
+
+export const ContactContainer = styled.div`
+	display: grid;
+	grid-template-columns: auto auto;
+	grid-gap: 20px;
+	padding: 20px;
+`;
+
+export const Contact = styled.div`
+	width: 200px;
+	display: flex;
+	align-items: center;
+	justify-content:space-between;
+	background: orange;
 `;
