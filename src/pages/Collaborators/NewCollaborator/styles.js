@@ -8,6 +8,13 @@ export const Form = styled.form`
 	padding: 15px;
 `;
 
+export const HeaderContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+`;
+
 export const Info = styled.div`
 	display: flex;
 	justify-content: flex-start;
@@ -24,13 +31,13 @@ export const InputsContainer = styled.div`
 	justify-content: space-evenly;
 	flex: 10px;
 	min-height: 150px;
+`;
 
-	div {
-		display: flex;
-		justify-content: flex-start;
-		align-items: center;
-		width: 300px;
-	}
+export const ButtonContainer = styled.div`
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 300px;
 `;
 
 export const Label = styled.label`

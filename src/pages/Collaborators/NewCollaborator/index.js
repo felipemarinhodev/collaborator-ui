@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { FaCheck } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaCheck, FaArrowLeft } from 'react-icons/fa';
 import { TiLightbulb } from 'react-icons/ti';
 
-import { Form, Info, Label, InputsContainer } from './styles';
+import { Form, Info, Label, InputsContainer, HeaderContainer, } from './styles';
 
 import {
 	Map,
@@ -15,11 +15,16 @@ import {
 import Avatar from '../../../components/Avatar';
 
 import NewCollaboratorContext from './context';
-import { saveCollaborator } from '../../../services/collaborators';
+import {
+	saveCollaborator,
+	fetchCollaborator,
+	updateCollaborator,
+} from '../../../services/collaborators';
 import history from '../../../services/history';
 import Contact from './Contact';
 
-function NewCollaborator() {
+function NewCollaborator({ match }) {
+	const {id} = match.params;
 	const NEW_EXPERIENCE = { description: '', skills: '' }
 	const NEW_CONTACT = { value: '', type: '' }
 	const [collaborator, setCollaborator] = useState(
@@ -28,6 +33,24 @@ function NewCollaborator() {
 			contacts: [NEW_CONTACT]
 		}
 	);
+	
+	const getCollaborator = async (id) => {
+		try {
+			await fetchCollaborator(id).then((res) => {
+				setCollaborator(res.data);
+				console.log('getCollaborator', res.data);
+			})
+			.catch((err) => {
+				throw new Error();
+			})
+		} catch (error) {
+			alert('Aconteceu um problema ao recurperar os dados do colaborador por favor tente mais tarde.');
+		}
+	};
+
+	useEffect(() => {
+		getCollaborator(id)
+	}, [id]);
 
 	const handleChange = (data) => {
 		setCollaborator(collaborator => ({ ...collaborator, ...data }));
@@ -47,14 +70,30 @@ function NewCollaborator() {
 		setCollaborator(collaborator => ({...collaborator, contacts }));
 	};
 
+	const handleSaveCollaborator = async (e) => {
+		try {
+			if (id) {
+				await updateCollaborator(collaborator)
+				.then(res => {
+					console.log('Resposta', res);
+					history.go('/collaborators');
+			});
+			return;
+			}
+			await saveCollaborator(collaborator)
+				.then(res => {
+					console.log('Resposta', res);
+					history.go('/collaborators');
+			});
+		} catch (error) {
+			
+		}
+	};
+
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log('handleSubmit', collaborator);
-		await saveCollaborator(collaborator)
-			.then(res => {
-				console.log('Resposta', res);
-				history.go('/collaborators');
-		});
+		await handleSaveCollaborator();
 	};
 
 	const handleAddMoreExperience = () => {
@@ -98,22 +137,26 @@ function NewCollaborator() {
 			}
 		}>
 			<Form onSubmit={handleSubmit}>
-				<div>
+				<HeaderContainer>
+					<FaArrowLeft size={30} onClick={() => history.back()} />
 					<Button type="submit">
 						<FaCheck size={20} />
-						Salvar
+						{!!id ? 'Atualizar' : 'Salvar'}
 					</Button>
-				</div>
+				</HeaderContainer>
 				<Info>
 					<Avatar size={120} />
 					<InputsContainer>
 						<Input
 							placeholder="Nome"
 							onChange={(e) => handleChange({ name: e.target.value })}
+							value={collaborator.name}
+							name="name"
 						/>
 						<div>
 							<Select
 								onChange={(e) => handleChange({ role: e.target.value })}
+								value={collaborator.role}
 							>
 								<option value="">Selecione</option>
 								<option value="DESENVOLVEDOR">Desenvolvedor</option>
@@ -148,7 +191,7 @@ function NewCollaborator() {
 							/>
 							<TextArea
 								label="Competências:"
-								value={experience.skill}
+								value={experience.skills}
 								onChange={(e) => handleExperience({skills: e.target.value}, i)}
 							/>
 						</div>
@@ -156,13 +199,13 @@ function NewCollaborator() {
 				</List>
 				<List handleAddMore={handleAddMoreContact}>
 					<Label>Contato</Label>
-					{collaborator.contacts.map((contact, i) => (
+					{/* {collaborator.contacts.map((contact, i) => (
 						<Contact
 							key={`contact-${i}`}
 							index={i}
 							contact={contact} 
 						/>
-					))}
+					))} */}
 				</List>
 				<Map />
 			</Form>
