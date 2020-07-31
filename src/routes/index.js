@@ -34,14 +34,14 @@ function Routes() {
 				<Route
 					exact
 					isPrivate
-					path="/collaborator/:id"
-					component={Collaborator}
+					path="/collaborator/:id/edit"
+					component={NewCollaborator}
 				/>	
 				<Route
 					exact
 					isPrivate
-					path="/collaborator/:id/edit"
-					component={NewCollaborator}
+					path="/collaborator/:id"
+					component={Collaborator}
 				/>	
 			</Switch>
 		</BrowserRouter>
