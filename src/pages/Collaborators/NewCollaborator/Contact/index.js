@@ -1,22 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-	FaFacebookF,
-	FaPhoneAlt,
-	FaEnvelope,
-	FaLinkedinIn,
-	FaGithub,
-	FaBuilding,
-	FaQuestion,
-} from 'react-icons/fa';
-import { MdClose, MdPhoneIphone } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
 
 import { Container, InputContainer, Inputs } from './styles';
 import { Input, Select } from '../../../../components/form';
 
 import CollaboratorContext from '../context';
+import ContactIcon from '../../../../components/ContactIcon';
 
-function Contact({index}) {
-	const [contact, setContact] = useState([{ type: '', value: '' }]);
+function Contact({index, contact}) {
+	// const [contact, setContact] = useState([{ type: '', value: '' }]);
 	const { handleRemoveContact, handleContact } = useContext(CollaboratorContext);
 	const types = [
 		{ name: 'Telefone fixo', value: 'TELEFONE_FIXO' },
@@ -28,42 +20,21 @@ function Contact({index}) {
 		{ name: 'GitHub', value: 'GITHUB' },
 	];
 
+
 	const handleContactIndex = (data) => {
 		console.log('handleContactIndex', data);
-		setContact(cont => ({ ...cont, ...data }));
+		// setContact(cont => ({ ...cont, ...data }));
 	}
 
 	useEffect(() => {
 		handleContact(contact, index);
-		console.log('Contact', contact);
 	}, [contact]);
-
-	const handleIcon = (contact) => {
-		switch (contact.type) {
-			case 'resident':
-				return <FaPhoneAlt size={25} />
-			case 'cell':
-				return <MdPhoneIphone size={25} />
-			case 'work':
-				return <FaBuilding size={25} />
-			case 'email':
-				return <FaEnvelope size={25} />
-			case 'facebook':
-				return <FaFacebookF size={25} />
-			case 'linkedin':
-				return <FaLinkedinIn size={25} />
-			case 'github':
-				return <FaGithub size={25} />
-			default:
-				return <FaQuestion size={25} />
-		}
-	};
 
 	return (
 		<Container>
 			<InputContainer>
 				<Inputs>
-					{handleIcon(contact)}
+					<ContactIcon type={contact.type} />
 					<div>
 						<Select
 							value={contact.type}
