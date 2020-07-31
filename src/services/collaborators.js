@@ -33,3 +33,16 @@ export const saveCollaborator = async (collaborator) => (
 			});
 	})
 )
+
+export const updateCollaborator = async (collaborator) => (
+new Promise((resolve, reject) => {
+	api.put(`/api/collaborator/${collaborator.id}`, collaborator)
+		.then(res => {
+			console.log('saveCollaborator res', res);
+			resolve(res.data);
+		})
+		.catch((err) => {
+			reject(err)
+		});
+	})
+)
