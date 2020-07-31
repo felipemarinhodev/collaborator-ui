@@ -4,9 +4,11 @@ import { FaArrowLeft, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import {
 	Line,
 	Skill,
+	Contact,
 	Container,
 	Experience,
 	InfoContainer,
+	ContactContainer,
 	OptionsContainer,
 	ExperiencesContainer,
 } from './styles';
@@ -14,6 +16,8 @@ import { fetchCollaborator } from '../../services/collaborators';
 import history from '../../services/history';
 import Avatar from '../../components/Avatar';
 import InfoCollaborator from '../../components/InfoCollaborator';
+import { Link } from 'react-router-dom';
+import ContactIcon from '../../components/ContactIcon';
 
 function Collaborator({ match }) {
 	const {id} = match.params;
@@ -43,7 +47,9 @@ function Collaborator({ match }) {
 		<Container>
 			<OptionsContainer>
 				<FaArrowLeft size={20} color="#000" onClick={() => history.back()} />
-				<FaPencilAlt size={20} color="#000" onClick={() => history.go(`/collaborator/${collaborator.id}/edit`)}/>
+				<Link to={`/collaborator/${collaborator.id}/edit`}>
+					<FaPencilAlt size={20} color="#000"/>
+				</Link>
 				<FaTrashAlt size={20} color="#000" />
 			</OptionsContainer>
 			<InfoContainer>
@@ -60,14 +66,19 @@ function Collaborator({ match }) {
 					</Experience>
 					))}
 			</ExperiencesContainer>
-			{/* <Line /> */}
+			<Line />
 			{/* {skills.map(skill => (
 				<Skill>{skill}</Skill>
 			))} */}
-			{/* <ContactContainer>
-				<strong></strong>
+			<ContactContainer>
+				{collaborator.contacts && collaborator.contacts.map(contact => (
+					<Contact>
+						<ContactIcon type={contact.type} />
+						<span>{contact.value}</span>
+					</Contact>
+				))}
 			</ContactContainer>
-			<LocalContainer>
+			{/* <LocalContainer>
 				<strong></strong>
 			</LocalContainer> */}
 		</Container>
