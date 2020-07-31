@@ -28,19 +28,19 @@ function Routes() {
 				<Route
 					exact
 					isPrivate
-					path="/collaborators/{:id}"
-					component={Collaborator}
-				/>
+					path="/collaborator/new"
+					component={NewCollaborator}
+				/>	
 				<Route
 					exact
 					isPrivate
-					path="/collaborator/{:id}"
+					path="/collaborator/:id"
 					component={Collaborator}
 				/>	
 				<Route
 					exact
 					isPrivate
-					path="/collaborator/new"
+					path="/collaborator/:id/edit"
 					component={NewCollaborator}
 				/>	
 			</Switch>
