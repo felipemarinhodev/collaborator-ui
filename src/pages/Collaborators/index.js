@@ -9,23 +9,50 @@ import Filter from './Filter';
 import { fetchCollaborators } from '../../services/collaborators';
 
 function Collaborators() {
-	const LIMIT = 6;
 	const [page, setPage] = useState(0);
+	const [totalPage, setTotalPage] = useState(0);
 	const [collaborators, setCollaborators] = useState([]);
+	const [disabledMoreButton, setDisabledMoreButton] = useState(true);
 
 	const init = async () => {
 		await fetchCollaborators()
 		.then((res) => {
 			setCollaborators(res.data.content);
+			setTotalPage(res.data.totalPages);
 		})
 		.catch(err => {
 			console.log('Error', err);
 		})
-
 	}
+	
+	const getCollaborators = async () => {
+		await fetchCollaborators(page)
+		.then((res) => {
+			setTotalPage(res.data.totalPages);
+			setCollaborators(items => [...items,...res.data.content]);
+		})
+		.catch(err => {
+			console.log('Error', err);
+		})
+	}
+	
+	useEffect(() => {
+		getCollaborators();
+	}, [page]);
+
+
 	useEffect(() => {
 		init();
 	}, []);
+
+	const handleMore = () => {
+		setPage(page => page + 1);
+	};
+
+	useEffect(() => {
+		console.log('DisabledMoreButton page', page, 'totalPage', totalPage);
+		setDisabledMoreButton((page + 1) >= totalPage);
+	} , [totalPage, page]);
 
 	return (
 		<Container>
@@ -40,7 +67,12 @@ function Collaborators() {
 					</Link>
 				))}
 			</List>
-			<ButtonMore>mais</ButtonMore>
+			<ButtonMore
+				disabled={disabledMoreButton}
+				onClick={() => handleMore()}
+			>
+				Mais
+			</ButtonMore>
 		</Container>
 	);
 }

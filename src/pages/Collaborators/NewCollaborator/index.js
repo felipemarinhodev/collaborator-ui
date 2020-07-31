@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { FaCheck, FaArrowLeft } from 'react-icons/fa';
 import { TiLightbulb } from 'react-icons/ti';
 
-import { Form, Info, Label, InputsContainer, HeaderContainer, } from './styles';
-
 import {
 	Map,
+	Form,
+	Info,
+	Label,
+	InputsContainer,
+	HeaderContainer,
+} from './styles';
+
+import {
 	List,
 	Input,
 	Select,
@@ -22,6 +28,7 @@ import {
 } from '../../../services/collaborators';
 import history from '../../../services/history';
 import Contact from './Contact';
+import { IoMdPin } from 'react-icons/io';
 
 function NewCollaborator({ match }) {
 	const {id} = match.params;
@@ -36,9 +43,9 @@ function NewCollaborator({ match }) {
 	
 	const getCollaborator = async (id) => {
 		try {
-			await fetchCollaborator(id).then((res) => {
+			await fetchCollaborator(id)
+			.then((res) => {
 				setCollaborator(res.data);
-				console.log('getCollaborator', res.data);
 			})
 			.catch((err) => {
 				throw new Error();
@@ -49,7 +56,9 @@ function NewCollaborator({ match }) {
 	};
 
 	useEffect(() => {
-		getCollaborator(id)
+		if (id) {
+			getCollaborator(id)
+		}
 	}, [id]);
 
 	const handleChange = (data) => {
@@ -75,21 +84,18 @@ function NewCollaborator({ match }) {
 			if (id) {
 				await updateCollaborator(collaborator)
 				.then(res => {
-					console.log('Resposta', res);
 					history.go('/collaborators');
 			});
 			return;
 			}
 			await saveCollaborator(collaborator)
 				.then(res => {
-					console.log('Resposta', res);
 					history.go('/collaborators');
 			});
 		} catch (error) {
 			
 		}
 	};
-
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -109,8 +115,6 @@ function NewCollaborator({ match }) {
 	}
 
 	const handleAddMoreContact = () => {
-		console.log('Contacts', collaborator.contacts, typeof collaborator.contacts);
-		console.log('experiences', collaborator.experiences, typeof collaborator.experiences);
 		setCollaborator(collaborator => (
 			{
 				...collaborator,
@@ -123,9 +127,10 @@ function NewCollaborator({ match }) {
 	}
 
 	const handleRemoveContact = (index) => {
-		console.log('Collaborator', collaborator, index);
-		// const contacts = [...collaborator.contacts];
-		// const list = Object.values(contacts);
+		console.log(collaborator);
+		// const [contacts] = collaborator;
+		// const retorno = contacts.splice(index, 1);
+		
 	}
 
 	return (
@@ -199,15 +204,18 @@ function NewCollaborator({ match }) {
 				</List>
 				<List handleAddMore={handleAddMoreContact}>
 					<Label>Contato</Label>
-					{/* {collaborator.contacts.map((contact, i) => (
+					{collaborator.contacts.map((contact, i) => (
 						<Contact
 							key={`contact-${i}`}
 							index={i}
 							contact={contact} 
 						/>
-					))} */}
+					))}
 				</List>
-				<Map />
+				<Map>
+					<IoMdPin size={30} />
+					<Input placeholder="Informe seu endereço" value={collaborator.local} />
+				</Map>
 			</Form>
 		</NewCollaboratorContext.Provider>
 	);

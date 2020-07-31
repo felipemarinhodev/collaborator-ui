@@ -44,3 +44,10 @@ export const Label = styled.label`
 	font-size: 16px;
 	font-weight: 900;
 `;
+
+export const Map = styled.div`
+	display: flex;
+	flex-direction: column;
+
+	margin-top: 15px;
+`;

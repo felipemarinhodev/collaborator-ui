@@ -67,5 +67,9 @@ export const Contact = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content:space-between;
-	background: orange;
+`;
+
+export const LocalContainer = styled.div`
+	display: flex;
+	align-items: center;
 `;

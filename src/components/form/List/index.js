@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
-import { Container, InputContainer, ExperiencesContainer } from './styles';
+import { Container, InputContainer } from './styles';
 
 function List(props) {
 	const { children, handleAddMore } = props;

@@ -1,11 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { MdClose } from 'react-icons/md';
 
-import { Container, InputContainer, Inputs } from './styles';
-import { Input, Select } from '../../../../components/form';
+import {
+	Inputs,
+	Container,
+	InputContainer,
+} from './styles';
 
-import CollaboratorContext from '../context';
+import { Input, Select } from '../../../../components/form';
 import ContactIcon from '../../../../components/ContactIcon';
+import CollaboratorContext from '../context';
 
 function Contact({index, contact}) {
 	// const [contact, setContact] = useState([{ type: '', value: '' }]);
@@ -20,15 +24,9 @@ function Contact({index, contact}) {
 		{ name: 'GitHub', value: 'GITHUB' },
 	];
 
-
 	const handleContactIndex = (data) => {
-		console.log('handleContactIndex', data);
-		// setContact(cont => ({ ...cont, ...data }));
+		handleContact({ ...contact, ...data }, index);
 	}
-
-	useEffect(() => {
-		handleContact(contact, index);
-	}, [contact]);
 
 	return (
 		<Container>

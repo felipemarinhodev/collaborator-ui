@@ -9,7 +9,7 @@ function Map() {
 		<Container>
 			<InputContainer>
 				<IoMdPin size={30} />
-				<Input placeholder="Informe seu endereço" />
+				<Input placeholder="Informe seu endereço"  />
 			</InputContainer>
 		</Container>
 	);

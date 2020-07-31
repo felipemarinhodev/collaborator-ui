@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowLeft, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 import {
@@ -8,11 +8,12 @@ import {
 	Container,
 	Experience,
 	InfoContainer,
-	ContactContainer,
+	LocalContainer,
 	OptionsContainer,
+	ContactContainer,
 	ExperiencesContainer,
 } from './styles';
-import { fetchCollaborator } from '../../services/collaborators';
+import { fetchCollaborator, deleteCollaborator } from '../../services/collaborators';
 import history from '../../services/history';
 import Avatar from '../../components/Avatar';
 import InfoCollaborator from '../../components/InfoCollaborator';
@@ -27,7 +28,6 @@ function Collaborator({ match }) {
 		try {
 			await fetchCollaborator(id)
 				.then(res => {
-					console.log('Collaborator', res.data);
 					setCollaborator(res.data);
 				})
 				.catch(err => {
@@ -43,6 +43,18 @@ function Collaborator({ match }) {
 		init();
 	}, []);
 
+	const handleDelete = async () => {
+		try {
+			await deleteCollaborator(id)
+			.then(() => {
+				alert('O colaborador foi removido com sucesso.');
+			})
+			history.forward('/collaborators');
+		} catch (error) {
+			
+		}
+	}
+
 	return (
 		<Container>
 			<OptionsContainer>
@@ -50,7 +62,7 @@ function Collaborator({ match }) {
 				<Link to={`/collaborator/${collaborator.id}/edit`}>
 					<FaPencilAlt size={20} color="#000"/>
 				</Link>
-				<FaTrashAlt size={20} color="#000" />
+				<FaTrashAlt size={20} color="#000" onClick={() => handleDelete()}/>
 			</OptionsContainer>
 			<InfoContainer>
 				<Avatar />
@@ -67,9 +79,7 @@ function Collaborator({ match }) {
 					))}
 			</ExperiencesContainer>
 			<Line />
-			{/* {skills.map(skill => (
-				<Skill>{skill}</Skill>
-			))} */}
+			<Skill></Skill>
 			<ContactContainer>
 				{collaborator.contacts && collaborator.contacts.map(contact => (
 					<Contact>
@@ -78,9 +88,9 @@ function Collaborator({ match }) {
 					</Contact>
 				))}
 			</ContactContainer>
-			{/* <LocalContainer>
-				<strong></strong>
-			</LocalContainer> */}
+			<LocalContainer>
+				<strong>{collaborator.local}</strong>
+			</LocalContainer>
 		</Container>
 	);
 }

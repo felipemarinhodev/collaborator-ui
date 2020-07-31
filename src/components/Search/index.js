@@ -8,8 +8,8 @@ import { Input } from '../form';
 function Search() {
 	return (
 		<Container>
-			<Input />
-			<button>
+			<Input disabled />
+			<button disabled>
 				<FiSearch />
 			</button>
 		</Container>

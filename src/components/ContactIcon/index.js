@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import {
 	FaFacebookF,
@@ -12,22 +12,21 @@ import {
 import { MdPhoneIphone } from 'react-icons/md';
 
 function ContactIcon({type}) {
-
 	const handleIcon = () => {
 		switch (type) {
-			case 'resident':
+			case 'TELEFONE_FIXO':
 				return <FaPhoneAlt size={25} />
-			case 'cell':
+			case 'TELEFONE_CELULAR':
 				return <MdPhoneIphone size={25} />
-			case 'work':
+			case 'TELEFONE':
 				return <FaBuilding size={25} />
-			case 'email':
+			case 'EMAIL':
 				return <FaEnvelope size={25} />
-			case 'facebook':
+			case 'FACEBOOK':
 				return <FaFacebookF size={25} />
-			case 'linkedin':
+			case 'LINKEDIN':
 				return <FaLinkedinIn size={25} />
-			case 'github':
+			case 'GITHUB':
 				return <FaGithub size={25} />
 			default:
 				return <FaQuestion size={25} />
